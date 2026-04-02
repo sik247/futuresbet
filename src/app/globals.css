@@ -1,26 +1,920 @@
 @import "tailwindcss";
 
+/* ============================================================
+   FUTURESBET — THEME SYSTEM
+   Three themes: casino | convenience | nightmarket
+   Tailwind v4 — @theme inline maps CSS vars to utilities
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   THEME: CASINO MONTE CARLO 007
+   data-theme="casino"
+   Aesthetic: James Bond — sleek obsidian, brushed gold, felt green
+   ------------------------------------------------------------ */
+[data-theme="casino"] {
+  /* Backgrounds */
+  --bg-base:         #0a0a0a;
+  --bg-surface:      #111111;
+  --bg-card:         #161616;
+  --bg-card-hover:   #1e1e1e;
+  --bg-overlay:      rgba(10, 10, 10, 0.85);
+  --bg-glass:        rgba(22, 22, 22, 0.72);
+
+  /* Foregrounds */
+  --fg-primary:      #f5f0e8;
+  --fg-secondary:    #b8aa8e;
+  --fg-muted:        #6b6355;
+  --fg-inverse:      #0a0a0a;
+
+  /* Borders */
+  --border-default:  rgba(212, 175, 55, 0.18);
+  --border-strong:   rgba(212, 175, 55, 0.45);
+  --border-card:     rgba(212, 175, 55, 0.12);
+  --border-focus:    #d4af37;
+
+  /* Brand — Primary: Gold */
+  --color-primary:        #d4af37;
+  --color-primary-light:  #f5d67b;
+  --color-primary-dim:    #8a6f1e;
+  --color-primary-bg:     rgba(212, 175, 55, 0.08);
+
+  /* Brand — Secondary: Felt Green */
+  --color-secondary:        #2d5a3f;
+  --color-secondary-light:  #3d7a55;
+  --color-secondary-dim:    #1a472a;
+  --color-secondary-bg:     rgba(45, 90, 63, 0.15);
+
+  /* Accent: Ruby */
+  --color-accent:     #c0392b;
+  --color-accent-bg:  rgba(192, 57, 43, 0.12);
+
+  /* Semantic */
+  --color-success:  #27ae60;
+  --color-warning:  #f39c12;
+  --color-danger:   #c0392b;
+  --color-info:     #2980b9;
+
+  /* Typography */
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body:    "Inter", sans-serif;
+
+  /* Spacing rhythm */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+
+  /* Shadows */
+  --shadow-card:   0 1px 3px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,175,55,0.08);
+  --shadow-modal:  0 24px 64px rgba(0,0,0,0.8), 0 0 0 1px rgba(212,175,55,0.15);
+  --shadow-glow:   0 0 24px rgba(212,175,55,0.35), 0 0 48px rgba(212,175,55,0.12);
+
+  /* Gradients */
+  --gradient-primary:   linear-gradient(135deg, #d4af37 0%, #f5d67b 50%, #d4af37 100%);
+  --gradient-surface:   linear-gradient(180deg, #161616 0%, #111111 100%);
+  --gradient-hero:      linear-gradient(135deg, #0a0a0a 0%, #1a1a0a 50%, #0a1a0f 100%);
+  --gradient-card-edge: linear-gradient(180deg, rgba(212,175,55,0.15) 0%, transparent 100%);
+}
+
+/* ------------------------------------------------------------
+   THEME: 편의점 (Korean Convenience Store)
+   data-theme="convenience"
+   Aesthetic: CU/GS25 — bright white, electric blue, friendly orange
+   ------------------------------------------------------------ */
+[data-theme="convenience"] {
+  /* Backgrounds */
+  --bg-base:         #f5f7ff;
+  --bg-surface:      #ffffff;
+  --bg-card:         #ffffff;
+  --bg-card-hover:   #f0f4ff;
+  --bg-overlay:      rgba(255, 255, 255, 0.92);
+  --bg-glass:        rgba(255, 255, 255, 0.80);
+
+  /* Foregrounds */
+  --fg-primary:      #0d0d1a;
+  --fg-secondary:    #3d4466;
+  --fg-muted:        #8891b0;
+  --fg-inverse:      #ffffff;
+
+  /* Borders */
+  --border-default:  #dde3f5;
+  --border-strong:   #b0bce8;
+  --border-card:     #eaeefc;
+  --border-focus:    #0066ff;
+
+  /* Brand — Primary: Electric Blue */
+  --color-primary:        #0066ff;
+  --color-primary-light:  #4d94ff;
+  --color-primary-dim:    #0047b3;
+  --color-primary-bg:     rgba(0, 102, 255, 0.07);
+
+  /* Brand — Secondary: Teal */
+  --color-secondary:        #00b4d8;
+  --color-secondary-light:  #48cae4;
+  --color-secondary-dim:    #0096c7;
+  --color-secondary-bg:     rgba(0, 180, 216, 0.08);
+
+  /* Accent: Tangerine Orange */
+  --color-accent:     #ff6b35;
+  --color-accent-bg:  rgba(255, 107, 53, 0.08);
+
+  /* Semantic */
+  --color-success:  #00c896;
+  --color-warning:  #ffb800;
+  --color-danger:   #ff3b5c;
+  --color-info:     #00b4d8;
+
+  /* Typography */
+  --font-heading: "Noto Sans KR", "Inter", sans-serif;
+  --font-body:    "Inter", "Noto Sans KR", sans-serif;
+
+  /* Spacing rhythm */
+  --radius-sm:  6px;
+  --radius-md:  12px;
+  --radius-lg:  18px;
+  --radius-xl:  24px;
+
+  /* Shadows */
+  --shadow-card:   0 2px 8px rgba(0, 102, 255, 0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-modal:  0 16px 48px rgba(0, 102, 255, 0.14), 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-glow:   0 4px 20px rgba(0, 102, 255, 0.20);
+
+  /* Gradients */
+  --gradient-primary:   linear-gradient(135deg, #0066ff 0%, #4d94ff 100%);
+  --gradient-surface:   linear-gradient(180deg, #f5f7ff 0%, #ffffff 100%);
+  --gradient-hero:      linear-gradient(135deg, #e8f0ff 0%, #f0faff 50%, #fff5f0 100%);
+  --gradient-card-edge: linear-gradient(180deg, rgba(0,102,255,0.06) 0%, transparent 100%);
+}
+
+/* ------------------------------------------------------------
+   THEME: 야시장 (Seoul Night Market)
+   data-theme="nightmarket"
+   Aesthetic: dark streets, lantern amber glow, neon signs
+   ------------------------------------------------------------ */
+[data-theme="nightmarket"] {
+  /* Backgrounds */
+  --bg-base:         #0f0f0f;
+  --bg-surface:      #161410;
+  --bg-card:         #1c1a14;
+  --bg-card-hover:   #231f17;
+  --bg-overlay:      rgba(15, 15, 15, 0.88);
+  --bg-glass:        rgba(28, 26, 20, 0.75);
+
+  /* Foregrounds */
+  --fg-primary:      #fef3e2;
+  --fg-secondary:    #d4a96a;
+  --fg-muted:        #7a6340;
+  --fg-inverse:      #0f0f0f;
+
+  /* Borders */
+  --border-default:  rgba(245, 158, 11, 0.14);
+  --border-strong:   rgba(245, 158, 11, 0.35);
+  --border-card:     rgba(245, 158, 11, 0.08);
+  --border-focus:    #f59e0b;
+
+  /* Brand — Primary: Lantern Amber */
+  --color-primary:        #f59e0b;
+  --color-primary-light:  #fbbf24;
+  --color-primary-dim:    #d97706;
+  --color-primary-bg:     rgba(245, 158, 11, 0.10);
+
+  /* Brand — Secondary: Neon Cyan */
+  --color-secondary:        #06b6d4;
+  --color-secondary-light:  #22d3ee;
+  --color-secondary-dim:    #0891b2;
+  --color-secondary-bg:     rgba(6, 182, 212, 0.10);
+
+  /* Accent: Neon Pink */
+  --color-accent:     #ec4899;
+  --color-accent-bg:  rgba(236, 72, 153, 0.10);
+
+  /* Red lantern */
+  --color-lantern:    #dc2626;
+  --color-lantern-bg: rgba(220, 38, 38, 0.12);
+
+  /* Semantic */
+  --color-success:  #22c55e;
+  --color-warning:  #f59e0b;
+  --color-danger:   #ef4444;
+  --color-info:     #06b6d4;
+
+  /* Typography */
+  --font-heading: "Black Han Sans", "Noto Sans KR", sans-serif;
+  --font-body:    "Inter", "Noto Sans KR", sans-serif;
+
+  /* Spacing rhythm */
+  --radius-sm:  3px;
+  --radius-md:  6px;
+  --radius-lg:  10px;
+  --radius-xl:  14px;
+
+  /* Shadows */
+  --shadow-card:   0 2px 8px rgba(0,0,0,0.6), 0 0 0 1px rgba(245,158,11,0.06);
+  --shadow-modal:  0 24px 64px rgba(0,0,0,0.85), 0 0 0 1px rgba(245,158,11,0.12);
+  --shadow-glow:   0 0 20px rgba(245,158,11,0.40), 0 0 60px rgba(245,158,11,0.10);
+
+  /* Neon glows */
+  --glow-pink:  0 0 12px rgba(236,72,153,0.60), 0 0 40px rgba(236,72,153,0.20);
+  --glow-cyan:  0 0 12px rgba(6,182,212,0.60),  0 0 40px rgba(6,182,212,0.20);
+  --glow-amber: 0 0 16px rgba(245,158,11,0.55), 0 0 48px rgba(245,158,11,0.15);
+
+  /* Gradients */
+  --gradient-primary:   linear-gradient(135deg, #d97706 0%, #f59e0b 50%, #fbbf24 100%);
+  --gradient-surface:   linear-gradient(180deg, #1c1a14 0%, #161410 100%);
+  --gradient-hero:      linear-gradient(135deg, #0f0f0f 0%, #1a1208 40%, #0f0f14 100%);
+  --gradient-card-edge: linear-gradient(180deg, rgba(245,158,11,0.12) 0%, transparent 100%);
+}
+
+/* ------------------------------------------------------------
+   DEFAULT THEME (casino as default, can be overridden)
+   ------------------------------------------------------------ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-base:         #0a0a0a;
+  --bg-surface:      #111111;
+  --bg-card:         #161616;
+  --bg-card-hover:   #1e1e1e;
+  --bg-overlay:      rgba(10, 10, 10, 0.85);
+  --bg-glass:        rgba(22, 22, 22, 0.72);
+
+  --fg-primary:      #f5f0e8;
+  --fg-secondary:    #b8aa8e;
+  --fg-muted:        #6b6355;
+  --fg-inverse:      #0a0a0a;
+
+  --border-default:  rgba(212, 175, 55, 0.18);
+  --border-strong:   rgba(212, 175, 55, 0.45);
+  --border-card:     rgba(212, 175, 55, 0.12);
+  --border-focus:    #d4af37;
+
+  --color-primary:        #d4af37;
+  --color-primary-light:  #f5d67b;
+  --color-primary-dim:    #8a6f1e;
+  --color-primary-bg:     rgba(212, 175, 55, 0.08);
+
+  --color-secondary:        #2d5a3f;
+  --color-secondary-light:  #3d7a55;
+  --color-secondary-dim:    #1a472a;
+  --color-secondary-bg:     rgba(45, 90, 63, 0.15);
+
+  --color-accent:     #c0392b;
+  --color-accent-bg:  rgba(192, 57, 43, 0.12);
+
+  --color-success:  #27ae60;
+  --color-warning:  #f39c12;
+  --color-danger:   #c0392b;
+  --color-info:     #2980b9;
+
+  --color-lantern:    #dc2626;
+  --color-lantern-bg: rgba(220, 38, 38, 0.12);
+
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body:    "Inter", sans-serif;
+
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+
+  --shadow-card:   0 1px 3px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,175,55,0.08);
+  --shadow-modal:  0 24px 64px rgba(0,0,0,0.8), 0 0 0 1px rgba(212,175,55,0.15);
+  --shadow-glow:   0 0 24px rgba(212,175,55,0.35), 0 0 48px rgba(212,175,55,0.12);
+
+  --glow-pink:  0 0 12px rgba(236,72,153,0.60), 0 0 40px rgba(236,72,153,0.20);
+  --glow-cyan:  0 0 12px rgba(6,182,212,0.60),  0 0 40px rgba(6,182,212,0.20);
+  --glow-amber: 0 0 16px rgba(245,158,11,0.55), 0 0 48px rgba(245,158,11,0.15);
+
+  --gradient-primary:   linear-gradient(135deg, #d4af37 0%, #f5d67b 50%, #d4af37 100%);
+  --gradient-surface:   linear-gradient(180deg, #161616 0%, #111111 100%);
+  --gradient-hero:      linear-gradient(135deg, #0a0a0a 0%, #1a1a0a 50%, #0a1a0f 100%);
+  --gradient-card-edge: linear-gradient(180deg, rgba(212,175,55,0.15) 0%, transparent 100%);
 }
 
+/* ------------------------------------------------------------
+   TAILWIND v4 — @theme inline
+   Maps CSS vars to Tailwind utility classes
+   ------------------------------------------------------------ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Colors — backgrounds */
+  --color-bg-base:        var(--bg-base);
+  --color-bg-surface:     var(--bg-surface);
+  --color-bg-card:        var(--bg-card);
+  --color-bg-card-hover:  var(--bg-card-hover);
+  --color-bg-overlay:     var(--bg-overlay);
+  --color-bg-glass:       var(--bg-glass);
+
+  /* Colors — foregrounds */
+  --color-fg-primary:     var(--fg-primary);
+  --color-fg-secondary:   var(--fg-secondary);
+  --color-fg-muted:       var(--fg-muted);
+  --color-fg-inverse:     var(--fg-inverse);
+
+  /* Colors — borders */
+  --color-border:         var(--border-default);
+  --color-border-strong:  var(--border-strong);
+  --color-border-card:    var(--border-card);
+  --color-border-focus:   var(--border-focus);
+
+  /* Colors — brand */
+  --color-primary:        var(--color-primary);
+  --color-primary-light:  var(--color-primary-light);
+  --color-primary-dim:    var(--color-primary-dim);
+  --color-primary-bg:     var(--color-primary-bg);
+
+  --color-secondary:        var(--color-secondary);
+  --color-secondary-light:  var(--color-secondary-light);
+  --color-secondary-dim:    var(--color-secondary-dim);
+  --color-secondary-bg:     var(--color-secondary-bg);
+
+  --color-accent:     var(--color-accent);
+  --color-accent-bg:  var(--color-accent-bg);
+
+  --color-lantern:    var(--color-lantern);
+  --color-lantern-bg: var(--color-lantern-bg);
+
+  /* Colors — semantic */
+  --color-success:  var(--color-success);
+  --color-warning:  var(--color-warning);
+  --color-danger:   var(--color-danger);
+  --color-info:     var(--color-info);
+
+  /* Typography */
+  --font-heading: var(--font-heading);
+  --font-body:    var(--font-body);
+  --font-sans:    var(--font-body);
+
+  /* Border radius */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ------------------------------------------------------------
+   BASE STYLES
+   ------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--fg-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
+}
+
+/* Scrollbar — themed */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-dim);
+}
+
+/* ------------------------------------------------------------
+   COMPONENT BASE CLASSES
+   ------------------------------------------------------------ */
+
+/* Card */
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  background-color: var(--bg-card-hover);
+  border-color: var(--border-default);
+}
+
+/* Surface */
+.surface {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+}
+
+/* Glass panel */
+.glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+}
+
+/* Button — primary */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--gradient-primary);
+  color: var(--fg-inverse);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-primary:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
+}
+.btn-primary:active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Button — ghost */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: transparent;
+  color: var(--fg-primary);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.875rem;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+.btn-ghost:hover {
+  border-color: var(--border-strong);
+  background-color: var(--color-primary-bg);
+  color: var(--color-primary);
+}
+
+/* Button — danger */
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--color-danger);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.btn-danger:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+/* Input */
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  color: var(--fg-primary);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.input::placeholder {
+  color: var(--fg-muted);
+}
+.input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--color-primary-bg);
+}
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: 99px;
+  border: 1px solid currentColor;
+}
+.badge-primary {
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+  border-color: var(--border-default);
+}
+.badge-success {
+  color: var(--color-success);
+  background: rgba(39, 174, 96, 0.1);
+  border-color: rgba(39, 174, 96, 0.25);
+}
+.badge-danger {
+  color: var(--color-danger);
+  background: var(--color-accent-bg);
+  border-color: rgba(192, 57, 43, 0.25);
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: var(--border-default);
+  border: none;
+  margin: 0;
+}
+
+/* ------------------------------------------------------------
+   THEME-SPECIFIC EFFECT UTILITIES
+   ------------------------------------------------------------ */
+
+/* CASINO — Gold glow on elements */
+.casino-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+/* CASINO — Gold shimmer text */
+.casino-text-gold {
+  color: var(--color-primary);
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.45);
+}
+
+/* CASINO — Gold gradient text */
+.casino-text-gradient {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* CASINO — Felt table surface */
+.casino-felt {
+  background: radial-gradient(ellipse at center, #2d5a3f 0%, #1a472a 60%, #0f2d1a 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* CASINO — Gold border shimmer animation */
+.casino-border-shimmer {
+  position: relative;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+.casino-border-shimmer::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #d4af37, #8a6f1e, #f5d67b, #8a6f1e, #d4af37);
+  background-size: 300% 300%;
+  animation: shimmer-border 4s linear infinite;
+  z-index: -1;
+}
+@keyframes shimmer-border {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* CASINO — Roulette spin */
+@keyframes roulette-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.casino-spin {
+  animation: roulette-spin 8s linear infinite;
+}
+
+/* CONVENIENCE — Playful card shadow */
+.convenience-shadow {
+  box-shadow: 4px 4px 0px var(--color-primary-dim), var(--shadow-card);
+}
+.convenience-shadow:hover {
+  box-shadow: 6px 6px 0px var(--color-primary-dim), var(--shadow-glow);
+  transform: translate(-2px, -2px);
+}
+
+/* CONVENIENCE — Colored top border accent */
+.convenience-accent-bar {
+  border-top: 3px solid var(--color-primary);
+}
+
+/* CONVENIENCE — Orange tag */
+.convenience-tag {
+  background: var(--color-accent);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+/* CONVENIENCE — Teal highlight */
+.convenience-highlight {
+  background: var(--color-secondary-bg);
+  border-left: 3px solid var(--color-secondary);
+  padding: 8px 12px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* NIGHT MARKET — Neon glow (generic) */
+.neon-glow {
+  box-shadow: var(--glow-amber);
+}
+
+/* NIGHT MARKET — Pink neon */
+.neon-pink {
+  color: #ec4899;
+  text-shadow: 0 0 10px rgba(236, 72, 153, 0.75), 0 0 30px rgba(236, 72, 153, 0.35);
+  box-shadow: var(--glow-pink);
+}
+
+/* NIGHT MARKET — Cyan neon */
+.neon-cyan {
+  color: #06b6d4;
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.75), 0 0 30px rgba(6, 182, 212, 0.35);
+  box-shadow: var(--glow-cyan);
+}
+
+/* NIGHT MARKET — Amber neon text */
+.neon-amber {
+  color: #f59e0b;
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.75), 0 0 30px rgba(245, 158, 11, 0.35);
+}
+
+/* NIGHT MARKET — Red lantern border pulse */
+.lantern-border {
+  border: 1px solid var(--color-lantern);
+  box-shadow: 0 0 12px var(--color-lantern-bg), inset 0 0 12px rgba(220, 38, 38, 0.05);
+  animation: lantern-pulse 3s ease-in-out infinite;
+}
+@keyframes lantern-pulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(220, 38, 38, 0.30), inset 0 0 10px rgba(220, 38, 38, 0.04); }
+  50%       { box-shadow: 0 0 22px rgba(220, 38, 38, 0.55), inset 0 0 18px rgba(220, 38, 38, 0.08); }
+}
+
+/* NIGHT MARKET — Neon sign flicker */
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 24%, 55%                           { opacity: 0.4; }
+}
+.neon-flicker {
+  animation: neon-flicker 5s linear infinite;
+}
+
+/* NIGHT MARKET — Warm gradient overlay */
+.nightmarket-glow-bg {
+  background: radial-gradient(ellipse at 50% 0%, rgba(245, 158, 11, 0.12) 0%, transparent 65%);
+}
+
+/* ------------------------------------------------------------
+   MARKET CARD — trade outcome styles
+   Used across all themes
+   ------------------------------------------------------------ */
+.outcome-yes {
+  color: var(--color-success);
+  background: rgba(39, 174, 96, 0.08);
+  border: 1px solid rgba(39, 174, 96, 0.2);
+}
+.outcome-no {
+  color: var(--color-danger);
+  background: var(--color-accent-bg);
+  border: 1px solid rgba(192, 57, 43, 0.2);
+}
+
+/* Probability bar */
+.prob-bar-track {
+  width: 100%;
+  height: 4px;
+  background: var(--border-default);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.prob-bar-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: 99px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Price change indicators */
+.price-up {
+  color: var(--color-success);
+}
+.price-down {
+  color: var(--color-danger);
+}
+
+/* ------------------------------------------------------------
+   ANIMATION UTILITIES
+   ------------------------------------------------------------ */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.animate-scale-in {
+  animation: scale-in 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Stagger children */
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 60ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 120ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 180ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 240ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(7) { animation-delay: 360ms; }
+.stagger-children > *:nth-child(8) { animation-delay: 420ms; }
+
+/* Pulse dot (live indicator) */
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.4); opacity: 0.7; }
+}
+.pulse-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-success);
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------
+   LAYOUT HELPERS
+   ------------------------------------------------------------ */
+.page-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 640px) {
+  .page-container {
+    padding: 0 16px;
+  }
+}
+
+/* Hero gradient */
+.hero-gradient {
+  background: var(--gradient-hero);
+}
+
+/* Section heading */
+.section-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  color: var(--fg-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+/* Mono number (prices, percentages) */
+.mono-num {
+  font-family: "Inter", monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* ------------------------------------------------------------
+   CATEGORY PILLS — theme-aware
+   ------------------------------------------------------------ */
+
+/* Base pill */
+.category-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 99px;
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+}
+
+/* Casino — dark pill, gold active */
+[data-theme="casino"] .category-pill-inactive,
+:root:not([data-theme]) .category-pill-inactive {
+  background: var(--bg-card);
+  color: var(--fg-muted);
+}
+[data-theme="casino"] .category-pill-inactive:hover,
+:root:not([data-theme]) .category-pill-inactive:hover {
+  background: var(--bg-card-hover);
+  color: var(--fg-secondary);
+  border-color: var(--border-default);
+}
+[data-theme="casino"] .category-pill-active,
+:root:not([data-theme]) .category-pill-active {
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  border-color: var(--color-primary-dim);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Convenience — bright colored, blue active */
+[data-theme="convenience"] .category-pill-inactive {
+  background: var(--bg-card);
+  color: var(--fg-secondary);
+}
+[data-theme="convenience"] .category-pill-inactive:hover {
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  border-color: var(--color-primary-light);
+}
+[data-theme="convenience"] .category-pill-active {
+  background: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Night Market — neon bordered */
+[data-theme="nightmarket"] .category-pill-inactive {
+  background: transparent;
+  color: var(--fg-muted);
+  border-color: var(--border-default);
+}
+[data-theme="nightmarket"] .category-pill-inactive:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+[data-theme="nightmarket"] .category-pill-active {
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: var(--glow-amber);
+}
+
+/* Truncate text */
+.truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
