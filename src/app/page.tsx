@@ -1,217 +1,232 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import type { PolymarketEvent } from "@/lib/polymarket/types";
 import { MarketCard } from "@/components/market-card";
+import { FeaturedHero } from "@/components/featured-hero";
+import { BreakingNews } from "@/components/breaking-news";
+import { HotTopics } from "@/components/hot-topics";
+import { CategoryPills } from "@/components/category-pills";
 
-function fmt(n: number) {
-  if (n >= 1_000_000_000) return `$${(n / 1_000_000_000).toFixed(1)}B`;
-  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(0)}M`;
-  if (n >= 1_000) return `$${(n / 1_000).toFixed(0)}K`;
-  return `$${n.toFixed(0)}`;
-}
+const CATEGORIES = [
+  { value: "all", label: "All" },
+  { value: "politics", label: "Politics" },
+  { value: "sports", label: "Sports" },
+  { value: "crypto", label: "Crypto" },
+  { value: "entertainment", label: "Culture" },
+  { value: "science", label: "Science" },
+];
 
-function HeroSection({
-  totalVolume,
-  activeMarkets,
-}: {
-  totalVolume: number;
-  activeMarkets: number;
-}) {
+function SkeletonCard() {
   return (
-    <section
-      className="hero-gradient relative overflow-hidden"
-      style={{ minHeight: "480px" }}
-    >
-      <div
-        aria-hidden
-        className="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-3xl pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, var(--color-primary-bg) 0%, transparent 70%)",
-          transform: "translate(-50%, -40%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full blur-3xl pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, var(--color-secondary-bg) 0%, transparent 70%)",
-          transform: "translate(50%, 40%)",
-        }}
-      />
-
-      <div className="page-container relative z-10 flex flex-col items-center justify-center text-center py-24 gap-6">
-        <div className="flex items-center gap-2 badge badge-primary py-1.5 px-4">
-          <span className="pulse-dot" />
-          <span className="text-xs font-semibold tracking-wider uppercase">
-            Live Markets
-          </span>
-        </div>
-
-        <div className="flex flex-col gap-2 animate-fade-in-up">
-          <p
-            className="text-sm font-medium tracking-widest uppercase"
-            style={{ color: "var(--fg-muted)", letterSpacing: "0.15em" }}
-          >
-            Prediction Markets
-          </p>
-
-          <h1
-            className="section-heading casino-text-gradient"
-            style={{
-              fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
-              letterSpacing: "-0.04em",
-              lineHeight: "1.1",
-            }}
-          >
-            FuturesBet
-          </h1>
-
-          <p
-            className="max-w-md mx-auto text-base leading-relaxed"
-            style={{ color: "var(--fg-secondary)" }}
-          >
-            Trade outcomes on world events. Real money, real stakes, real vibes.
-            <br />
-            <span style={{ color: "var(--fg-muted)", fontSize: "0.85rem" }}>
-              실제 돈, 실제 스테이크, 진짜 분위기
-            </span>
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3 flex-wrap justify-center">
-          <a href="/markets" className="btn-primary">
-            Browse Markets →
-          </a>
-          <a href="/markets" className="btn-ghost">
-            Learn How
-          </a>
-        </div>
-
-        <div
-          className="glass mt-4 flex items-center gap-0 divide-x rounded-2xl overflow-hidden"
-          style={{ borderColor: "var(--border-default)" }}
-        >
-          {[
-            { label: "Total Volume", value: fmt(totalVolume), sub: "거래량" },
-            {
-              label: "Active Markets",
-              value: activeMarkets.toLocaleString(),
-              sub: "활성 마켓",
-            },
-            { label: "Avg. Probability", value: "50%", sub: "평균 확률" },
-          ].map((stat, i) => (
-            <div
-              key={i}
-              className="flex flex-col items-center px-6 py-4 gap-0.5"
-              style={{ borderColor: "var(--border-default)" }}
-            >
-              <span
-                className="mono-num font-bold"
-                style={{
-                  fontSize: "1.25rem",
-                  color: "var(--color-primary)",
-                }}
-              >
-                {stat.value}
-              </span>
-              <span
-                className="text-xs"
-                style={{ color: "var(--fg-primary)" }}
-              >
-                {stat.label}
-              </span>
-              <span
-                className="text-[10px]"
-                style={{ color: "var(--fg-muted)" }}
-              >
-                {stat.sub}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <div className="card animate-pulse" style={{ height: "200px", opacity: 0.4 }} />
   );
 }
 
-function SkeletonGrid() {
+function SkeletonHero() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {Array.from({ length: 8 }).map((_, i) => (
-        <div
-          key={i}
-          className="card animate-pulse"
-          style={{ height: "280px", opacity: 0.4 }}
-        />
-      ))}
+    <div className="card animate-pulse" style={{ minHeight: "380px", opacity: 0.3 }} />
+  );
+}
+
+function SkeletonSidebar() {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="card animate-pulse" style={{ height: "220px", opacity: 0.3 }} />
+      <div className="card animate-pulse" style={{ height: "260px", opacity: 0.3 }} />
     </div>
   );
 }
 
 export default function HomePage() {
-  const [events, setEvents] = useState<PolymarketEvent[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [featured, setFeatured] = useState<PolymarketEvent[]>([]);
+  const [trending, setTrending] = useState<PolymarketEvent[]>([]);
+  const [allEvents, setAllEvents] = useState<PolymarketEvent[]>([]);
+  const [loading, setLoading] = useState({ featured: true, trending: true, all: true });
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
+  // Fetch all data in parallel on mount
   useEffect(() => {
     const controller = new AbortController();
-    fetch("/api/events?limit=8&closed=false", { signal: controller.signal })
+    const opts = { signal: controller.signal };
+
+    fetch("/api/events/featured?limit=5", opts)
+      .then((r) => r.json())
+      .then((data) => { if (Array.isArray(data)) setFeatured(data); })
+      .catch(() => {})
+      .finally(() => setLoading((l) => ({ ...l, featured: false })));
+
+    fetch("/api/events/trending?limit=5", opts)
+      .then((r) => r.json())
+      .then((data) => { if (Array.isArray(data)) setTrending(data); })
+      .catch(() => {})
+      .finally(() => setLoading((l) => ({ ...l, trending: false })));
+
+    fetch("/api/events?limit=20&closed=false", opts)
       .then((r) => r.json())
       .then((data) => {
-        if (Array.isArray(data)) setEvents(data);
+        if (Array.isArray(data)) {
+          setAllEvents(data);
+          setOffset(data.length);
+          setHasMore(data.length >= 20);
+        }
       })
       .catch(() => {})
-      .finally(() => setLoading(false));
+      .finally(() => setLoading((l) => ({ ...l, all: false })));
+
     return () => controller.abort();
   }, []);
 
-  const totalVolume = events.reduce((sum, e) => sum + (e.volume ?? 0), 0);
-  const activeMarkets = events.filter((e) => !e.closed).length;
+  // Load more events
+  const loadMore = () => {
+    setLoading((l) => ({ ...l, all: true }));
+    fetch(`/api/events?limit=20&offset=${offset}&closed=false`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setAllEvents((prev) => [...prev, ...data]);
+          setOffset((o) => o + data.length);
+          setHasMore(data.length >= 20);
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading((l) => ({ ...l, all: false })));
+  };
+
+  // Filter events by category
+  const filteredEvents = useMemo(() => {
+    if (activeCategory === "all") return allEvents;
+    return allEvents.filter((e) => e.category === activeCategory);
+  }, [allEvents, activeCategory]);
+
+  // Derive hot topics from all events
+  const hotTopics = useMemo(() => {
+    const categoryMap = new Map<string, number>();
+    for (const e of allEvents) {
+      const cat = e.category || "other";
+      categoryMap.set(cat, (categoryMap.get(cat) ?? 0) + (e.volume ?? 0));
+    }
+    return Array.from(categoryMap.entries())
+      .map(([name, volume]) => ({
+        name: name.charAt(0).toUpperCase() + name.slice(1),
+        volume,
+        tag: name,
+      }))
+      .sort((a, b) => b.volume - a.volume)
+      .slice(0, 5);
+  }, [allEvents]);
 
   return (
     <main className="flex-1 pb-20 md:pb-0">
-      <HeroSection totalVolume={totalVolume} activeMarkets={activeMarkets} />
+      {/* Hero area: Featured + Sidebar */}
+      <section className="page-container py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6">
+          {/* Left: Featured hero carousel */}
+          {loading.featured ? (
+            <SkeletonHero />
+          ) : featured.length > 0 ? (
+            <FeaturedHero events={featured} />
+          ) : (
+            <SkeletonHero />
+          )}
 
-      <section className="page-container py-12">
-        <div className="flex items-baseline justify-between mb-6">
-          <div>
-            <h2 className="section-heading">Featured Markets</h2>
-            <p
-              className="text-sm mt-1"
-              style={{ color: "var(--fg-muted)" }}
-            >
-              주목할 마켓 — Trade the most active predictions
-            </p>
+          {/* Right: Sidebar */}
+          {loading.trending ? (
+            <SkeletonSidebar />
+          ) : (
+            <aside className="flex flex-col gap-4">
+              <BreakingNews events={trending} />
+              <HotTopics topics={hotTopics} />
+            </aside>
+          )}
+        </div>
+      </section>
+
+      {/* All Markets */}
+      <section className="page-container py-6">
+        {/* Header row */}
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="section-heading" style={{ fontSize: "1.5rem" }}>
+            All markets
+          </h2>
+          <div className="flex items-center gap-3" style={{ color: "var(--fg-muted)" }}>
+            {/* Search icon */}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+            </svg>
+            {/* Filter icon */}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="4" x2="4" y1="21" y2="14" /><line x1="4" x2="4" y1="10" y2="3" />
+              <line x1="12" x2="12" y1="21" y2="12" /><line x1="12" x2="12" y1="8" y2="3" />
+              <line x1="20" x2="20" y1="21" y2="16" /><line x1="20" x2="20" y1="12" y2="3" />
+              <line x1="2" x2="6" y1="14" y2="14" /><line x1="10" x2="14" y1="8" y2="8" />
+              <line x1="18" x2="22" y1="16" y2="16" />
+            </svg>
+            {/* Bookmark icon */}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" />
+            </svg>
           </div>
-          <a
-            href="/markets"
-            className="text-sm font-medium transition-colors hover:opacity-80"
-            style={{ color: "var(--color-primary)" }}
-          >
-            View all →
-          </a>
         </div>
 
-        {loading ? (
-          <SkeletonGrid />
-        ) : events.length === 0 ? (
+        {/* Category pills */}
+        <div className="mb-6">
+          <CategoryPills
+            categories={CATEGORIES}
+            active={activeCategory}
+            onChange={setActiveCategory}
+          />
+        </div>
+
+        {/* Market cards grid */}
+        {loading.all && allEvents.length === 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        ) : filteredEvents.length === 0 ? (
           <div
             className="glass rounded-2xl p-12 text-center"
             style={{ color: "var(--fg-muted)" }}
           >
-            <p className="text-lg mb-2">No markets available right now.</p>
-            <p className="text-sm">마켓이 없습니다. Check back soon.</p>
+            <p className="text-lg mb-2">No markets in this category.</p>
+            <p className="text-sm">이 카테고리에 마켓이 없습니다.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
-            {events.map((event) => (
-              <div key={event.id} className="animate-fade-in-up">
-                <MarketCard event={event} />
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {filteredEvents.map((event) => (
+                <div key={event.id} className="animate-fade-in">
+                  <MarketCard
+                    event={event}
+                    variant={event.markets?.length > 2 ? "multi-outcome" : "compact"}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Load more */}
+            {hasMore && activeCategory === "all" && (
+              <div className="flex justify-center mt-8">
+                <button
+                  onClick={loadMore}
+                  disabled={loading.all}
+                  className="px-8 py-3 text-sm font-semibold rounded-xl transition-all hover:opacity-90 disabled:opacity-50"
+                  style={{
+                    background: "var(--color-primary-bg)",
+                    color: "var(--color-primary)",
+                    border: "1px solid var(--border-default)",
+                    cursor: loading.all ? "wait" : "pointer",
+                  }}
+                >
+                  {loading.all ? "Loading..." : "Load more markets"}
+                </button>
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
       </section>
     </main>

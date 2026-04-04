@@ -7,6 +7,8 @@ export interface FetchEventsParams {
   offset?: number;
   closed?: boolean;
   tag?: string;
+  order?: string;
+  ascending?: boolean;
 }
 
 class PolymarketApiError extends Error {
@@ -70,6 +72,12 @@ export async function fetchEvents(
   }
   if (params?.tag !== undefined) {
     queryParams.tag = params.tag;
+  }
+  if (params?.order !== undefined) {
+    queryParams.order = params.order;
+  }
+  if (params?.ascending !== undefined) {
+    queryParams.ascending = String(params.ascending);
   }
 
   return apiFetch<PolymarketEvent[]>("/events", queryParams);
