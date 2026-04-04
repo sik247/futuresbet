@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useTheme } from "@/lib/theme-context";
+import { useTheme, THEMES } from "@/lib/theme-context";
 import type { PolymarketEvent } from "@/lib/polymarket/types";
 
 function formatVolume(vol: number): string {
@@ -57,10 +57,8 @@ export function FeaturedHero({ events }: FeaturedHeroProps) {
     }
   }
 
-  const themeClass =
-    theme === "casino" ? "casino-border-shimmer" :
-    theme === "nightmarket" ? "neon-glow" :
-    "convenience-accent-bar";
+  const themeInfo = THEMES.find((t) => t.id === theme)!;
+  const themeClass = themeInfo.heroClass;
 
   const endDateStr = event.endDate
     ? `Ends ${new Date(event.endDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`

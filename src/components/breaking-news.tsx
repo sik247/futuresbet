@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useTheme } from "@/lib/theme-context";
+import { useTheme, THEMES } from "@/lib/theme-context";
 import type { PolymarketEvent } from "@/lib/polymarket/types";
 
 interface BreakingNewsProps {
@@ -10,6 +10,8 @@ interface BreakingNewsProps {
 
 export function BreakingNews({ events }: BreakingNewsProps) {
   const { theme } = useTheme();
+  const themeInfo = THEMES.find((t) => t.id === theme)!;
+  const isDark = themeInfo.mode === "dark";
 
   return (
     <div
@@ -26,7 +28,7 @@ export function BreakingNews({ events }: BreakingNewsProps) {
           className="text-sm font-bold"
           style={{
             fontFamily: "var(--font-heading)",
-            color: theme === "casino" ? "var(--color-primary)" : "var(--fg-primary)",
+            color: isDark ? "var(--color-primary)" : "var(--fg-primary)",
           }}
         >
           Breaking news
@@ -58,7 +60,7 @@ export function BreakingNews({ events }: BreakingNewsProps) {
               <span
                 className="mono-num text-xs font-bold shrink-0 mt-0.5"
                 style={{
-                  color: theme === "nightmarket"
+                  color: isDark
                     ? i % 2 === 0 ? "var(--color-primary)" : "var(--color-secondary-light)"
                     : "var(--fg-muted)",
                   minWidth: "16px",

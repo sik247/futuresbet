@@ -31,3 +31,15 @@ export interface PolymarketEvent {
   volume: number;
   liquidity: number;
 }
+
+export interface LiveTrade {
+  id: string;
+  marketQuestion: string;
+  eventTitle: string;
+  outcome: string;
+  price: number;
+  size: number;
+  timestamp: string;
+  side: "BUY" | "SELL";
+  emoji: string;
+}

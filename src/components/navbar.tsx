@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import clsx from "clsx";
-import { useTheme, THEMES, type Theme } from "@/lib/theme-context";
+import { useTheme, THEMES } from "@/lib/theme-context";
 import { SearchBar } from "./search-bar";
 
 const NAV_LINKS = [
@@ -14,11 +14,6 @@ const NAV_LINKS = [
   { href: "/leaderboard", labelEn: "Leaderboard", labelKo: "순위" },
 ] as const;
 
-const THEME_EMOJIS: Record<Theme, string> = {
-  casino: "🎰",
-  convenience: "🏪",
-  nightmarket: "🏮",
-};
 
 const CATEGORY_TABS = [
   { href: "/markets", label: "Trending", emoji: "🔥" },
@@ -93,7 +88,7 @@ export function Navbar() {
               )}
               aria-label="Switch theme"
             >
-              <span>{THEME_EMOJIS[theme]}</span>
+              <span>{THEMES.find((t) => t.id === theme)!.emoji}</span>
               <svg
                 width="10" height="10" viewBox="0 0 12 12" fill="none"
                 className={clsx("transition-transform", dropdownOpen && "rotate-180")}
@@ -125,7 +120,7 @@ export function Navbar() {
                         : "text-[var(--fg-secondary)] hover:text-[var(--fg-primary)] hover:bg-[var(--color-primary-bg)]"
                     )}
                   >
-                    <span className="text-lg">{THEME_EMOJIS[t.id]}</span>
+                    <span className="text-lg">{t.emoji}</span>
                     <div className="flex flex-col">
                       <span className="font-medium leading-none">{t.nameKo}</span>
                       <span className="text-[10px] opacity-60 mt-0.5">{t.nameEn}</span>
@@ -232,7 +227,7 @@ export function Navbar() {
           className="flex flex-col items-center px-3 py-1.5 rounded-lg text-xs"
           style={{ color: "var(--fg-muted)" }}
         >
-          <span className="text-base leading-none">{THEME_EMOJIS[theme]}</span>
+          <span className="text-base leading-none">{THEMES.find((t) => t.id === theme)!.emoji}</span>
           <span className="text-[9px] mt-0.5 opacity-70">Theme</span>
         </button>
       </nav>

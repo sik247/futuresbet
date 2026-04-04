@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useTheme } from "@/lib/theme-context";
+import { useTheme, THEMES } from "@/lib/theme-context";
 import type { PolymarketEvent } from "@/lib/polymarket/types";
 
 interface MarketCardProps {
@@ -27,10 +27,10 @@ function CompactCard({ event, theme }: { event: PolymarketEvent; theme: string }
     if (!isNaN(price)) yesPct = Math.round(price * 100);
   }
 
-  const isCasino = theme === "casino";
-  const isConvenience = theme === "convenience";
-  const yesLabel = isCasino ? "Yes" : isConvenience ? "사요" : "Yes";
-  const noLabel = isCasino ? "No" : isConvenience ? "안사요" : "No";
+  const themeInfo = THEMES.find((t) => t.id === theme)!;
+  const yesLabel = themeInfo.yesLabel;
+  const noLabel = themeInfo.noLabel;
+  const cardExtraClass = themeInfo.cardClass;
 
   // Multi-outcome display for events with multiple markets
   const allOutcomes: { name: string; pct: number }[] = [];
@@ -47,7 +47,7 @@ function CompactCard({ event, theme }: { event: PolymarketEvent; theme: string }
   return (
     <Link
       href={`/markets/${event.slug || event.id}`}
-      className={`card flex flex-col overflow-hidden group ${isConvenience ? "convenience-accent-bar" : ""}`}
+      className={`card flex flex-col overflow-hidden group ${cardExtraClass}`}
       style={{ textDecoration: "none", minHeight: "180px" }}
     >
       <div className="flex flex-col flex-1 p-4 gap-3">
@@ -146,13 +146,13 @@ function CompactCard({ event, theme }: { event: PolymarketEvent; theme: string }
 /*  Multi-outcome variant — shows all markets in one card             */
 /* ------------------------------------------------------------------ */
 function MultiOutcomeCard({ event, theme }: { event: PolymarketEvent; theme: string }) {
-  const isCasino = theme === "casino";
-  const isConvenience = theme === "convenience";
+  const themeInfo = THEMES.find((t) => t.id === theme)!;
+  const cardExtraClass = themeInfo.cardClass;
 
   return (
     <Link
       href={`/markets/${event.slug || event.id}`}
-      className={`card flex flex-col overflow-hidden group ${isConvenience ? "convenience-accent-bar" : ""}`}
+      className={`card flex flex-col overflow-hidden group ${cardExtraClass}`}
       style={{ textDecoration: "none" }}
     >
       {/* Full-width image */}
@@ -182,14 +182,14 @@ function MultiOutcomeCard({ event, theme }: { event: PolymarketEvent; theme: str
                   className="px-2 py-0.5 text-[10px] font-semibold rounded hover:opacity-80"
                   style={{ background: "rgba(39,174,96,0.15)", color: "var(--color-success)", border: "none", cursor: "pointer" }}
                 >
-                  {isCasino ? "Yes" : isConvenience ? "사요" : "Yes"}
+                  {themeInfo.yesLabel}
                 </button>
                 <button
                   onClick={(e) => e.preventDefault()}
                   className="px-2 py-0.5 text-[10px] font-semibold rounded hover:opacity-80"
                   style={{ background: "rgba(192,57,43,0.15)", color: "var(--color-danger)", border: "none", cursor: "pointer" }}
                 >
-                  {isCasino ? "No" : isConvenience ? "안사요" : "No"}
+                  {themeInfo.noLabel}
                 </button>
               </div>
             </div>
@@ -219,19 +219,12 @@ function DefaultCard({ event, theme }: { event: PolymarketEvent; theme: string }
     if (!isNaN(price)) yesPct = Math.round(price * 100);
   }
 
-  const isCasino = theme === "casino";
-  const isConvenience = theme === "convenience";
-  const isNightmarket = theme === "nightmarket";
+  const themeInfo = THEMES.find((t) => t.id === theme)!;
+  const yesLabel = themeInfo.yesLabel;
+  const noLabel = themeInfo.noLabel;
+  const cardExtraClass = themeInfo.cardClass;
 
-  const yesLabel = isCasino ? "Bet" : isConvenience ? "사요" : "맛있다!";
-  const noLabel = isCasino ? "Fold" : isConvenience ? "안사요" : "별로...";
-  const cardExtraClass = isConvenience ? "convenience-accent-bar" : "";
-
-  const cardStyle: React.CSSProperties = isCasino
-    ? { boxShadow: "var(--shadow-card)" }
-    : isNightmarket
-    ? { boxShadow: "var(--shadow-card), 0 0 0 1px rgba(245,158,11,0.06)" }
-    : {};
+  const cardStyle: React.CSSProperties = {};
 
   return (
     <Link
