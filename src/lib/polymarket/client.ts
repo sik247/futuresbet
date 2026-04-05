@@ -2,6 +2,27 @@ import type { PolymarketEvent, PolymarketMarket } from "./types";
 
 const GAMMA_API_BASE = "https://gamma-api.polymarket.com";
 
+function parseMarket(market: PolymarketMarket): PolymarketMarket {
+  return {
+    ...market,
+    outcomes:
+      typeof market.outcomes === "string"
+        ? JSON.parse(market.outcomes)
+        : market.outcomes ?? [],
+    outcomePrices:
+      typeof market.outcomePrices === "string"
+        ? JSON.parse(market.outcomePrices)
+        : market.outcomePrices ?? [],
+  };
+}
+
+function parseEvent(event: PolymarketEvent): PolymarketEvent {
+  return {
+    ...event,
+    markets: (event.markets ?? []).map(parseMarket),
+  };
+}
+
 export interface FetchEventsParams {
   limit?: number;
   offset?: number;
@@ -80,17 +101,20 @@ export async function fetchEvents(
     queryParams.ascending = String(params.ascending);
   }
 
-  return apiFetch<PolymarketEvent[]>("/events", queryParams);
+  const events = await apiFetch<PolymarketEvent[]>("/events", queryParams);
+  return events.map(parseEvent);
 }
 
 export async function fetchEvent(id: string): Promise<PolymarketEvent> {
-  return apiFetch<PolymarketEvent>(`/events/${encodeURIComponent(id)}`);
+  const event = await apiFetch<PolymarketEvent>(`/events/${encodeURIComponent(id)}`);
+  return parseEvent(event);
 }
 
 export async function fetchMarkets(
   eventId: string
 ): Promise<PolymarketMarket[]> {
-  return apiFetch<PolymarketMarket[]>("/markets", {
+  const markets = await apiFetch<PolymarketMarket[]>("/markets", {
     event_id: eventId,
   });
+  return markets.map(parseMarket);
 }
